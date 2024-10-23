@@ -41,7 +41,7 @@ public class Main {
        Future <String> future = executor.submit(() -> ler.next());
         ExecutorService contadorExecutor = Executors.newSingleThreadExecutor();
         contadorExecutor.submit(() ->{
-          for(int i = 10; i>0;i--){System.out.print("\r tempo restante: " + i+ " ");
+          for(int i = 5; i>0;i--){System.out.print("\r tempo restante: " + i+ " ");
         try{
           Thread.sleep(1000);
         } catch (InterruptedException e){
@@ -52,7 +52,7 @@ public class Main {
         });
 
         try {
-          String cor = future.get(10, TimeUnit.SECONDS);
+          String cor = future.get(5, TimeUnit.SECONDS);
           acertou = 
             cor.equals(cores[posicaoCorPintada]);
         

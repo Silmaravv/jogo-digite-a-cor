@@ -1,11 +1,20 @@
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class jogador{
+  String nome;
+  int pontuacao;
+
+  public void jogador(String nome, int pontuacao)
+}
 
 public class Main {
-
+  
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
@@ -14,14 +23,34 @@ public class Main {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    public static void main(String[] args) {
+    /*public static void menu(String[] args){
+      
+    }*/
+   
+    public static void jogo(String[] args) {
       Random gerador = new Random();
+      Scanner menu = new Scanner(System.in);
+      boolean continuar = true;
+      while (continuar){
+      System.out.println("BEM VINDO(A) CHOQUE DE CORES!");
+      System.out.println("");
+      System.out.println("Escolha a opção desejada:" );
+      System.out.println("1- INICIAR");
+      System.out.println("2- RANKING");
+      System.out.println("3- SAIR");
+      System.out.println("");
+      System.out.println("");
+      byte escolha = menu.nextByte();
 
+      //ExecutorService executor = Executors.newSingleThreadExecutor();
       boolean acertou = true;
-
+      
       Scanner tempo = new Scanner(System.in);
-      ExecutorService executor = Executors.newSingleThreadExecutor();
-      System.out.println("JOGO DAS CORES \nSerá que você consegue bater o record?");
+      if (escolha == 1){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+      System.out.println("JOGO INICIADO!");
+      System.out.println("");
+      System.out.println(" \nSerá que você consegue bater o record?");
       Scanner ler = new Scanner(System.in);
       while (acertou) {
 
@@ -44,7 +73,8 @@ public class Main {
        });
         ExecutorService contadorExecutor = Executors.newSingleThreadExecutor();
         contadorExecutor.submit(() ->{
-          for(int i = 30; i>0;i--){System.out.print("\r tempo restante: " + i+ " ");
+          //exibe o tempo para o usuário
+          for(int i = 7; i>0;i--){System.out.print("\r tempo restante: " + i+ " ");
         try{
           Thread.sleep(1000);
         } catch (InterruptedException e){
@@ -53,18 +83,14 @@ public class Main {
         }
           //System.out.println(" Tempo esgotado!!! ");
         });
-
+       // contador de tempo
         try {
-          String cor = future.get(30, TimeUnit.SECONDS);
+          String cor = future.get(7, TimeUnit.SECONDS);
           acertou = 
             cor.equals(cores[posicaoCorPintada]);
 
 
-
-
-
-
-        //        roxo é igual a roxo?
+ //        roxo é igual a roxo?
         acertou = cor.equals(cores[posicaoCorPintada]);
 
         if(acertou) {
@@ -76,7 +102,7 @@ public class Main {
 
 
         } catch (TimeoutException e){
-          System.out.println("Tempo esgotado! voçê perdeu.");
+          System.out.println("Tempo esgotado! você perdeu.");
             acertou = false;
           future.cancel(true);
         }catch (Exception e){
@@ -87,5 +113,20 @@ public class Main {
       }  
 executor.shutdown();
 tempo.close(); 
+      }
+      else if (escolha == 2){
+        System.out.println("== RANKING ==");
+        
+      }
+      else if(escolha == 3){
+       System.out.println("SAINDO...");
+        continuar = false;
+      }
+      else{
+        System.out.println("COMANDO INVÁLIDO! SELECIONE NOVAMENTE:");
+        System.out.println("");
+      }
+      }
+      //ler.close();
     }
 }

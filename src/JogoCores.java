@@ -27,9 +27,7 @@ public class JogoCores {
 	
 	public static void main(String[] args) throws InterruptedException {
 		ArrayList<Jogador> ranking = new ArrayList<>();
-		ranking.add(new Jogador("Sil", 44));
-  		ranking.add(new Jogador("FluFF", 30));
-  		ranking.add(new Jogador("Fer", 10));
+		//
 		boolean continuar = true;
 		while (continuar) {
 			System.out.println("");
@@ -48,16 +46,13 @@ public class JogoCores {
 			byte escolha = ler.nextByte();
 			
 			if (escolha == 1) {
-				ExecutorService executor = Executors.newSingleThreadExecutor();
 				System.out.println("JOGO INICIADO!");
 				System.out.println("");
 				System.out.println(" \nSerá que você consegue bater o record?");
 				Random gerador = new Random();
 	  		
 				boolean acertou = true;
-	  		
 				int pontoSoma = 0;
-				
 				int tempoLimite = 10000;
 			
 				
@@ -65,7 +60,7 @@ public class JogoCores {
 					System.out.println();
 					System.out.println("Digite a cor da palavra o mais rápido possível.");
 					System.out.println();
-	  		
+	  		//para que o sistema entenda qual é a cor, sorteamos as cores para pintar a palavra e guarda a posição, pois será usada para comparação.
 					String[] palavras = {"azul", "vermelho", "amarelo", "verde", "roxo", "ciano", "branco"};
 					String[] coresSorteio = {ANSI_BLUE, ANSI_RED, ANSI_YELLOW, ANSI_GREEN, ANSI_PURPLE, ANSI_CYAN, ANSI_WHITE};
 	  			
@@ -75,21 +70,22 @@ public class JogoCores {
 	  			
 					System.out.println(corSorteadaPintada + palavraSorteada);
 					System.out.println(ANSI_RESET);
-					
+					//uma solução para o temporizador, o scanner trava o terminal e não dá pra interromper a trava do terminal usando recursos normais
+					//o console imput vai esperar o usuario digitar alguma coisa dentro de um limite de tempo, se acabar o tempo ele avança o cod
 					ConsoleInput consoleInput = new ConsoleInput(1,tempoLimite, TimeUnit.MILLISECONDS);
 					String cor = consoleInput.readLine();
 					
-					//        roxo é igual a roxo?
+					//        roxo é igual a roxo? se a pessoa não digitar dentro do tempo será null
 					acertou = cor != null && cor.equals(palavras[posicaoCorPintada]);
 	  			
 					if (acertou) {
 						System.out.println("Acertou miseravi");
 						pontoSoma = pontoSoma + 1;
-	  				
+						System.out.println("Nível "+ pontoSoma);
 						
 						if (tempoLimite >= 2650) {
 							tempoLimite = tempoLimite-500;
-							System.out.println("Nível "+ pontoSoma);
+							
 								
 						}
 						
@@ -153,7 +149,7 @@ public class JogoCores {
           		
           	} else if (escolha ==3) {
           		System.out.println("\u001B[33m🅸\u001B[34m🅽\u001B[35m🆂\u001B[36m🆃\u001B[31m🆁\u001B[33m🆄\u001B[34m🅲\u001B[31m🅾\u001B[36m🅴\u001B[33m🆂\u001B[32m 🅳\u001B[35m🅾\u001B[36m 🅹\u001B[31m🅾\u001B[33m🅶\u001B[35m🅾\u001B[0m\n");
-          		System.out.println("1 - Ao iniciar o jogo irá apresentar o nome de uma cor\n2- Digite a cor da palavra\n\n Obs:\n *A cada acerto, o desafio aumenta com a diminuição de 2 segundos a cada rodada\n *Ao final registre o seu nome e veja sua pontuação no ranking");
+          		System.out.println("1 - Ao iniciar o jogo, será apresentada o nome de uma cor.\n2- Digite a cor correspondente à palavra exibida.\n\n Observações:\n *A cada resposta correta, o desafio aumenta, reduzindo o tempo disponível em 2 segundos a cada rodada.\n *Ao final registre o seu nome e confira sua pontuação.");
           	} else if(escolha ==4){
           		System.exit(0);
           	}
@@ -184,8 +180,9 @@ public class JogoCores {
 		
 	}
 	
+	
 	public static class ConsoleInputReadTask implements Callable<String> {
-		
+		//ler o que está sendo digitado, imita o scanner
 		public String call() throws IOException {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		    // System.out.println("ConsoleInputReadTask run() called.");
@@ -207,7 +204,7 @@ public class JogoCores {
 		    return input;
 		}
 	}
-
+ //limite de tempo, ele ativa o  consoleImputReadTask, mas quando der o limite de tempo ele interrompe
 	public static class ConsoleInput {
 		
 	    private final int tries;
